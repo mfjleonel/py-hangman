@@ -2,11 +2,13 @@ import argparse
 import random
 import subprocess
 import sys
+import unidecode
 
 def get_args():
     parser = argparse.ArgumentParser()
-    parser.add_argument('-l', '--lenght', default='*',
-                        help="Escolhe o tamanho das palavras")
+    parser.add_argument('-l', '--lenght', default='*', help="Escolhe qual tamanho a palavra deve ter, entre 4-12.")
+    parser.add_argument('-w', '--word', help="Especifíca a palavra a ser usada.")
+
     return parser.parse_args()
 
 
@@ -53,7 +55,7 @@ def game():
         if guess == 'quit':
             break
         elif len(guess) > 1 and guess != 'quit':
-            if guess == word:
+            if unidecode.unidecode(guess) == unidecode.unidecode(word):
                 list_word = [l for l in word]
                 break
             else:
@@ -62,7 +64,7 @@ def game():
         else:
             if guess in word_alt:
                 for char in word_alt:
-                    if char == guess:
+                    if unidecode.unidecode(char) == unidecode.unidecode(guess):
                         list_word[word_alt.index(char)] = char
                         word_alt = word_alt.replace(char, 'X', 1)
             else:
@@ -75,9 +77,12 @@ def game():
         print("Parabéns, você conseguiu!")
 
 
-words = ['farinha', 'pássaro', 'igreja', 'maçã', 'banana', 'laranja', 'pera', 'mamão', 'graça', 'Deus', 'amor', 'vídeo','espada', 'livro','paralelo', 'linha', 'tempo', 'vida','triste']
+words = ['farinha', 'pássaro', 'igreja', 'maçã', 'banana', 'laranja', 'pera', 'mamão', 'graça', 'Deus', 'amor', 'vídeo','espada', 'livro','paralelo', 'linha', 'tempo', 'vida','triste', 'lírio']
 life = 5
 args = get_args()
-word = gen_word()
+if args.word == None:
+    word = gen_word()
+else:
+    word = args.word
 list_word = ['_' for a in word]
 game()
