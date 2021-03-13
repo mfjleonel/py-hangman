@@ -7,7 +7,7 @@ import os
 
 def get_args():
     parser = argparse.ArgumentParser()
-    parser.add_argument('-l', '--lenght', default='*', help="Escolhe qual tamanho a palavra deve ter, entre 4-12.")
+    parser.add_argument('-l', '--lenght', default='*', help="Escolhe qual tamanho a palavra deve ter.")
     parser.add_argument('-w', '--word', help="Especifíca a palavra a ser usada.")
     parser.add_argument('-i', '--inputlist', help="Determina um arquivo listando as palavras a serem sorteadas, uma em cada linha.")
     return parser.parse_args()
@@ -17,7 +17,6 @@ def gen_word(input_list):
     global args
     words = ['farinha', 'pássaro', 'igreja', 'maçã', 'banana', 'laranja', 'pera', 'mamão', 'graça', 'Deus', 'amor', 'vídeo','espada', 'livro','paralelo', 'linha', 'tempo', 'vida','triste', 'lírio']
     choosen_word = ''
-    print(input_list)
     if input_list:
         try:
             with open(args.inputlist) as ilist:
@@ -33,15 +32,24 @@ def gen_word(input_list):
 
     if args.lenght != '*':
         try:
+            possible = False
             lenght = int(args.lenght)
-            if lenght > 12 or lenght < 4:
+            for w in words:
+                if len(w) == lenght:
+                    possible = True
+            if possible == False:
                 raise(ValueError)
             else:
                 while len(choosen_word) != lenght:
                     choosen_word = random.choice(words)
 
         except ValueError:
-            print("Deve-se passar um número entre 4 e 12 como argumento para 'lenght'.")
+            print(f'Não foi possível achar uma palavra com {lenght} letras na lista.')
+            wait = input(f"> Pressione enter para escolher uma palavra de qualquer tamanho, ou 'quit' para sair...\n")
+            if wait == 'quit':
+                exit()
+            choosen_word = random.choice(words)
+            
     else:
         choosen_word = random.choice(words)
 
