@@ -3,18 +3,33 @@ import random
 import subprocess
 import sys
 import unidecode
+import os
 
 def get_args():
     parser = argparse.ArgumentParser()
     parser.add_argument('-l', '--lenght', default='*', help="Escolhe qual tamanho a palavra deve ter, entre 4-12.")
     parser.add_argument('-w', '--word', help="Especifíca a palavra a ser usada.")
-
+    parser.add_argument('-i', '--inputlist', help="Determina um arquivo listando as palavras a serem sorteadas, uma em cada linha.")
     return parser.parse_args()
 
 
-def gen_word():
+def gen_word(input_list):
     global args
-    choosen_word = random.choice(words)
+    words = ['farinha', 'pássaro', 'igreja', 'maçã', 'banana', 'laranja', 'pera', 'mamão', 'graça', 'Deus', 'amor', 'vídeo','espada', 'livro','paralelo', 'linha', 'tempo', 'vida','triste', 'lírio']
+    choosen_word = ''
+    print(input_list)
+    if input_list:
+        try:
+            with open(args.inputlist) as ilist:
+                data = ilist.read()
+                words = [w for w in data.replace(' ','').splitlines() if w != '']
+        except (IsADirectoryError, FileNotFoundError):
+            wait = input("Não foi possível acessar arquivo ou diretório. Por favor, confira o caminho indicado e se você tem as permissões necessárias para acessá-lo.\n> Pressione enter para sortear entre as palavras padrões ou digite 'quit' para sair...\n")
+            if wait == 'quit':
+                exit()
+        except:
+            print("Alguma coisa aconteceu, mas não consigo determinar a fonte do erro. Abortando o programa!")
+            exit()
 
     if args.lenght != '*':
         try:
@@ -26,7 +41,10 @@ def gen_word():
                     choosen_word = random.choice(words)
 
         except ValueError:
-            print("> Deve-se passar um número entre 4 e 12 como argumento para 'lenght'.")
+            print("Deve-se passar um número entre 4 e 12 como argumento para 'lenght'.")
+    else:
+        choosen_word = random.choice(words)
+
     return choosen_word.lower()
 
 
@@ -72,17 +90,21 @@ def game():
     
     show()
     if life == 0:
-        print("Você perdeu! Boa sorte na próxima.")
+        print(f'Você perdeu! Boa sorte na próxima. A palavra era: {word}')
     else:
-        print("Parabéns, você conseguiu!")
+        print('Parabéns, você conseguiu!')
 
 
-words = ['farinha', 'pássaro', 'igreja', 'maçã', 'banana', 'laranja', 'pera', 'mamão', 'graça', 'Deus', 'amor', 'vídeo','espada', 'livro','paralelo', 'linha', 'tempo', 'vida','triste', 'lírio']
 life = 5
 args = get_args()
-if args.word == None:
-    word = gen_word()
+
+if not args.word:
+    input_list = False
+    if args.inputlist:
+        input_list = True
+    word = gen_word(input_list)
 else:
     word = args.word
+        
 list_word = ['_' for a in word]
 game()
