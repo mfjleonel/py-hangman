@@ -6,8 +6,8 @@ This is one of my first projects in python, and it aims, not only to help me thr
 Right now, all text and UI is in brazilian portuguese, but I have plans to add a feature so that the player can set the language he wants.  
 To play, you will need python3 installed, and you can just use "python3 hangman.py". But, also, there is some some parsing arguments you can use:
 
-### --lenght, -l
-I believe this is self-explanatory. Basically, you can specify the lenght of the word that you want.
+### --length, -l
+I believe this is self-explanatory. Basically, you can specify the length of the word that you want.
 
 ### --word, -w
 Passing this argument allow you to specify the word to be used, it jumps right to the game with the given word. It's useful, if you're playing with someone else, for instance.
