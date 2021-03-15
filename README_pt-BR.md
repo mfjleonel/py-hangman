@@ -4,8 +4,8 @@ Esse é um dos meus primeiros projetos em python, e mira, não só em me ajudar 
 No momento, todo texto e UI está em português, mas planejo acrescentar a possibilidade do jogador escolher a linguagem que quer.  
 Para jogar, você precisará do python3 instalado, e basta usar "python3 hangman.py", mas você também pode passar alguns argumentos:  
 
-### --lenght, -l
-Lenght significa "tamanho", logo, com esse argumento você pode indicar para o programa o tamanho da palavra que quer.
+### --length, -l
+Length significa "tamanho", logo, com esse argumento você pode indicar para o programa o tamanho da palavra que quer.
 
 ### --word, -w
 Passando esse argumento você pode especificar a exata palavra a ser usada, o programa, então, pula direto para o jogo. É útil, quando se está jogando com outra pessoa, por exemplo.
