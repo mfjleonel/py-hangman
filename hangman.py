@@ -7,7 +7,7 @@ import os
 
 def get_args():
     parser = argparse.ArgumentParser()
-    parser.add_argument('-l', '--lenght', default='*', help="Escolhe qual tamanho a palavra deve ter.")
+    parser.add_argument('-l', '--length', default='*', help="Escolhe qual tamanho a palavra deve ter.")
     parser.add_argument('-w', '--word', help="Especifíca a palavra a ser usada.")
     parser.add_argument('-i', '--inputlist', help="Determina um arquivo listando as palavras a serem sorteadas, uma em cada linha.")
     return parser.parse_args()
@@ -30,21 +30,21 @@ def gen_word(input_list):
             print("Alguma coisa aconteceu, mas não consigo determinar a fonte do erro. Abortando o programa!")
             exit()
 
-    if args.lenght != '*':
+    if args.length != '*':
         try:
+            length = int(args.length)
             possible = False
-            lenght = int(args.lenght)
             for w in words:
-                if len(w) == lenght:
+                if len(w) == length:
                     possible = True
             if possible == False:
                 raise(ValueError)
             else:
-                while len(choosen_word) != lenght:
+                while len(choosen_word) != length:
                     choosen_word = random.choice(words)
 
         except ValueError:
-            print(f'Não foi possível achar uma palavra com {lenght} letras na lista.')
+            print(f'Não foi possível achar uma palavra com {length} letras na lista.')
             wait = input(f"> Pressione enter para escolher uma palavra de qualquer tamanho, ou 'quit' para sair...\n")
             if wait == 'quit':
                 exit()
@@ -99,6 +99,8 @@ def game():
     show()
     if life == 0:
         print(f'Você perdeu! Boa sorte na próxima. A palavra era: {word}')
+    elif guess == 'quit':
+        print("Ok. Até uma próxima!")
     else:
         print('Parabéns, você conseguiu!')
 
