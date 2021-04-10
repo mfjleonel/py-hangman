@@ -70,13 +70,17 @@ def show():
 def game():
     global life
     global list_word
-
+    hit_letters = []
+    message = ''
+    
     word_alt = word.lower()
     guess = ''
     while ''.join(list_word) != word and life > 0:
         show()
+        print(message)
         guess = input("> Digite uma letra, ou mais de uma para tentar advinhar a palavra. Digite 'quit' a qualquer momento, para sair. \n")
         guess = guess.lower()
+        message = ''
 
         if guess == 'quit':
             break
@@ -88,13 +92,18 @@ def game():
                 life = 0
 
         else:
-            if guess in word_alt:
-                for char in word_alt:
-                    if unidecode.unidecode(char) == unidecode.unidecode(guess):
-                        list_word[word_alt.index(char)] = char
-                        word_alt = word_alt.replace(char, 'X', 1)
+            if guess not in hit_letters:
+                hit_letters.append(guess)
+                if guess in word_alt:
+                    for char in word_alt:
+                        if unidecode.unidecode(char) == unidecode.unidecode(guess):
+                            list_word[word_alt.index(char)] = char
+                            word_alt = word_alt.replace(char, 'X', 1)
+
+                else:
+                    life -= 1
             else:
-                life -= 1
+                message = "Você já tentou essa letra!"
     
     show()
     if life == 0:
